@@ -1,3 +1,5 @@
+#include "edge-impulse-sdk/dsp/config.hpp"
+#if EIDSP_LOAD_CMSIS_DSP_SOURCES
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_copy_q7.c
@@ -26,7 +28,7 @@
  * limitations under the License.
  */
 
-#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_math.h"
+#include "edge-impulse-sdk/CMSIS/DSP/Include/dsp/support_functions.h"
 
 /**
   @ingroup groupSupport
@@ -44,7 +46,7 @@
   @param[in]     blockSize  number of samples in each vector
   @return        none
  */
-#if defined(ARM_MATH_MVEI)
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 void arm_copy_q7(
   const q7_t * pSrc,
         q7_t * pDst,
@@ -130,3 +132,5 @@ void arm_copy_q7(
 /**
   @} end of BasicCopy group
  */
+
+#endif // EIDSP_LOAD_CMSIS_DSP_SOURCES

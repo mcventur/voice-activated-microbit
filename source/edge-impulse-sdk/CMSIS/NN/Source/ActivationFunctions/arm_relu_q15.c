@@ -1,3 +1,5 @@
+#include "edge-impulse-sdk/classifier/ei_classifier_config.h"
+#if EI_CLASSIFIER_TFLITE_LOAD_CMSIS_NN_SOURCES
 /*
  * Copyright (C) 2010-2020 Arm Limited or its affiliates. All rights reserved.
  *
@@ -21,15 +23,15 @@
  * Title:        arm_relu_q15.c
  * Description:  Q15 version of ReLU
  *
- * $Date:        February 27, 2020
- * $Revision:    V.1.0.1
+ * $Date:        09. October 2020
+ * $Revision:    V.1.0.2
  *
  * Target Processor:  Cortex-M cores
  *
  * -------------------------------------------------------------------- */
 
-#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_math.h"
 #include "edge-impulse-sdk/CMSIS/NN/Include/arm_nnfunctions.h"
+#include "edge-impulse-sdk/CMSIS/NN/Include/arm_nnsupportfunctions.h"
 
 /**
  *  @ingroup groupNN
@@ -41,15 +43,15 @@
  */
 
 /**
-   * @brief Q15 RELU function
-   * @param[in,out]   data        pointer to input
-   * @param[in]       size        number of elements
-   *
-   * @details
-   *
-   * Optimized relu with QSUB instructions.
-   *
-   */
+ * @brief Q15 RELU function
+ * @param[in,out]   data        pointer to input
+ * @param[in]       size        number of elements
+ *
+ * @details
+ *
+ * Optimized relu with QSUB instructions.
+ *
+ */
 
 void arm_relu_q15(q15_t *data, uint16_t size)
 {
@@ -74,7 +76,7 @@ void arm_relu_q15(q15_t *data, uint16_t size)
         /* if MSB=1, mask will be 0xFF, 0x0 otherwise */
         mask = __QSUB16(0x00000000, buf);
 
-        write_q15x2_ia(&output, in & (~mask));
+        arm_nn_write_q15x2_ia(&output, in & (~mask));
         i--;
     }
 
@@ -102,3 +104,5 @@ void arm_relu_q15(q15_t *data, uint16_t size)
 /**
  * @} end of Acti group
  */
+
+#endif // EI_CLASSIFIER_TFLITE_LOAD_CMSIS_NN_SOURCES

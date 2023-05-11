@@ -1,3 +1,5 @@
+#include "edge-impulse-sdk/classifier/ei_classifier_config.h"
+#if EI_CLASSIFIER_TFLITE_LOAD_CMSIS_NN_SOURCES
 /*
  * Copyright (C) 2010-2020 Arm Limited or its affiliates. All rights reserved.
  *
@@ -21,14 +23,14 @@
  * Title:        arm_nn_mat_mult_kernel_s8_s16_reordered.c
  * Description:  Matrix-multiplication function for convolution with reordered columns
  *
- * $Date:        February 27, 2020
- * $Revision:    V.1.0.2
+ * $Date:        09. October 2020
+ * $Revision:    V.1.0.3
  *
  * Target Processor:  Cortex-M cores
  * -------------------------------------------------------------------- */
 
 #include "edge-impulse-sdk/CMSIS/NN/Include/arm_nnfunctions.h"
-#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_math.h"
+#include "edge-impulse-sdk/CMSIS/NN/Include/arm_nnsupportfunctions.h"
 
 /*
  * Matrix-multiplication with re-ordered input and bias inputs for convolution with per-channel
@@ -199,3 +201,5 @@ q7_t *arm_nn_mat_mult_kernel_s8_s16_reordered(const q7_t *input_a,
     return NULL;
 #endif
 }
+
+#endif // EI_CLASSIFIER_TFLITE_LOAD_CMSIS_NN_SOURCES

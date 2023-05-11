@@ -1,3 +1,5 @@
+#include "edge-impulse-sdk/dsp/config.hpp"
+#if EIDSP_LOAD_CMSIS_DSP_SOURCES
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_cfft_q15.c
@@ -26,11 +28,11 @@
  * limitations under the License.
  */
 
-#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_math.h"
+#include "edge-impulse-sdk/CMSIS/DSP/Include/dsp/transform_functions.h"
 
-#if defined(ARM_MATH_MVEI)
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 
-#include "arm_vec_fft.h"
+#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_vec_fft.h"
 
 
 static void arm_bitreversal_16_inpl_mve(
@@ -794,7 +796,7 @@ void arm_cfft_radix4by2_q15(
       out2 = __SMUAD(coeff, R);
 #endif /* #ifndef ARM_MATH_BIG_ENDIAN */
 
-      write_q15x2_ia (&pSl, (q31_t) ((out2) & 0xFFFF0000) | (out1 & 0x0000FFFF));
+      write_q15x2_ia (&pSl, (q31_t)__PKHBT( out1, out2, 0 ) );
   }
 
 #else /* #if defined (ARM_MATH_DSP) */
@@ -893,7 +895,7 @@ void arm_cfft_radix4by2_inverse_q15(
      out2 = __SMUSD(__QSUB(0, coeff), R);
 #endif /* #ifndef ARM_MATH_BIG_ENDIAN */
 
-     write_q15x2_ia (&pSl, (q31_t) ((out2) & 0xFFFF0000) | (out1 & 0x0000FFFF));
+     write_q15x2_ia (&pSl, (q31_t)__PKHBT( out1, out2, 0 ));
   }
 
 #else /* #if defined (ARM_MATH_DSP) */
@@ -947,3 +949,5 @@ void arm_cfft_radix4by2_inverse_q15(
 }
 
 #endif /* defined(ARM_MATH_MVEI) */
+
+#endif // EIDSP_LOAD_CMSIS_DSP_SOURCES

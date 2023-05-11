@@ -1,3 +1,5 @@
+#include "edge-impulse-sdk/dsp/config.hpp"
+#if EIDSP_LOAD_CMSIS_DSP_SOURCES
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_q15_to_q31.c
@@ -26,7 +28,7 @@
  * limitations under the License.
  */
 
-#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_math.h"
+#include "edge-impulse-sdk/CMSIS/DSP/Include/dsp/support_functions.h"
 
 /**
   @ingroup groupSupport
@@ -50,7 +52,7 @@
       pDst[n] = (q31_t) pSrc[n] << 16;   0 <= n < blockSize.
   </pre>
  */
-#if defined(ARM_MATH_MVEI)
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 void arm_q15_to_q31(
   const q15_t * pSrc,
         q31_t * pDst,
@@ -180,3 +182,5 @@ void arm_q15_to_q31(
 /**
   @} end of q15_to_x group
  */
+
+#endif // EIDSP_LOAD_CMSIS_DSP_SOURCES

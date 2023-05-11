@@ -1,15 +1,7 @@
-/* ----------------------------------------------------------------------
- * Project:      CMSIS DSP Library
- * Title:        arm_add_q7.c
- * Description:  Q7 vector addition
- *
- * $Date:        18. March 2019
- * $Revision:    V1.6.0
- *
- * Target Processor: Cortex-M cores
- * -------------------------------------------------------------------- */
+#include "edge-impulse-sdk/dsp/config.hpp"
+#if EIDSP_LOAD_CMSIS_DSP_SOURCES
 /*
- * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2010-2020 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -26,7 +18,18 @@
  * limitations under the License.
  */
 
-#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_math.h"
+/* ----------------------------------------------------------------------
+ * Project:      CMSIS DSP Library
+ * Title:        arm_add_q7.c
+ * Description:  Q7 vector addition
+ *
+ * $Date:        May 29, 2020
+ * $Revision:    V1.6.1
+ *
+ * Target Processor: Cortex-M cores
+ * -------------------------------------------------------------------- */
+
+#include "edge-impulse-sdk/CMSIS/DSP/Include/dsp/basic_math_functions.h"
 
 /**
   @ingroup groupMath
@@ -50,9 +53,9 @@
                    Results outside of the allowable Q7 range [0x80 0x7F] are saturated.
  */
 
-#if defined(ARM_MATH_MVEI)
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 
-#include "arm_helium_utils.h"
+#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_helium_utils.h"
 
 void arm_add_q7(
     const q7_t * pSrcA,
@@ -156,3 +159,5 @@ void arm_add_q7(
 /**
   @} end of BasicAdd group
  */
+
+#endif // EIDSP_LOAD_CMSIS_DSP_SOURCES

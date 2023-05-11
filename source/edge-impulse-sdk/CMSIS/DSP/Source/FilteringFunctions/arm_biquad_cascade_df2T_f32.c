@@ -1,3 +1,5 @@
+#include "edge-impulse-sdk/dsp/config.hpp"
+#if EIDSP_LOAD_CMSIS_DSP_SOURCES
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_biquad_cascade_df2T_f32.c
@@ -26,7 +28,7 @@
  * limitations under the License.
  */
 
-#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_math.h"
+#include "edge-impulse-sdk/CMSIS/DSP/Include/dsp/filtering_functions.h"
 
 /**
   @ingroup groupFilters
@@ -46,7 +48,7 @@
   @return        none
  */
 #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
-#include "arm_helium_utils.h"
+#include "edge-impulse-sdk/CMSIS/DSP/Include/arm_helium_utils.h"
 
 void arm_biquad_cascade_df2T_f32(
   const arm_biquad_cascade_df2T_instance_f32 * S,
@@ -89,8 +91,8 @@ void arm_biquad_cascade_df2T_f32(
 
         /* b1Coeffs = {b0, b1, b2, x} */
         /* b1Coeffs = { x, x, a1, a2} */
-        b1Coeffs = vshlcq_s32(b0Coeffs, &tmp, 32);
-        a1Coeffs = vshlcq_s32(a0Coeffs, &tmp, 32);
+        b1Coeffs = (f32x4_t)vshlcq_s32((int32x4_t)b0Coeffs, &tmp, 32);
+        a1Coeffs = (f32x4_t)vshlcq_s32((int32x4_t)a0Coeffs, &tmp, 32);
 
         sample = blockSize / 2;
 
@@ -650,3 +652,5 @@ LOW_OPTIMIZATION_EXIT
 /**
   @} end of BiquadCascadeDF2T group
  */
+
+#endif // EIDSP_LOAD_CMSIS_DSP_SOURCES
